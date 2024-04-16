@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Abc.IdentityServer4.EidasLight\Abc.IdentityServer4.EidasLight.csproj" />
+    <ProjectReference Include="..\..\src\Abc.IdentityServer.EidasLight\Abc.IdentityServer4.EidasLight.csproj" />
   </ItemGroup>
 </Project>
