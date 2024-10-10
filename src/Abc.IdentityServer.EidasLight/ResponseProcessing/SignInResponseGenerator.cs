@@ -28,6 +28,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly Services.IClaimsService _claims;
         private readonly IResourceStore _resources;
+        private readonly IIssuerNameService _issuerNameService;
         private readonly ILogger _logger;
 
         public SignInResponseGenerator(
@@ -35,12 +36,14 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
             EidasLightOptions options,
             Services.IClaimsService claimsService,
             IResourceStore resources,
+            IIssuerNameService issuerNameService,
             ILogger<SignInResponseGenerator> logger)
         {
             _contextAccessor = contextAccessor;
             _options = options;
             _claims = claimsService;
             _resources = resources;
+            _issuerNameService = issuerNameService;
             _logger = logger;
         }
 
@@ -117,7 +120,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
             return new ClaimsIdentity(outboundClaims, "idsrv");
         }
 
-        private Task<EidasLightResponse> CreateResponseAsync(ValidatedEidasLightRequest validatedRequest, ClaimsIdentity outgoingSubject)
+        private async Task<EidasLightResponse> CreateResponseAsync(ValidatedEidasLightRequest validatedRequest, ClaimsIdentity outgoingSubject)
         {
             var eidasLightRequest = validatedRequest.Message;
 
@@ -125,7 +128,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
             {
                 InResponseToId = eidasLightRequest.Id,
                 IpAddress = _contextAccessor.HttpContext.GetClientIpAddress(),
-                Issuer = _contextAccessor.HttpContext.GetIdentityServerIssuerUri(),
+                Issuer = await _issuerNameService.GetCurrentAsync(),
                 RelayState = eidasLightRequest.RelayState,
                 Status = new EidasLightResponseStatus()
                 {
@@ -176,7 +179,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
                 }
             }
 
-            return Task.FromResult(eidasLightResponse);
+            return eidasLightResponse;
         }
     }
 }

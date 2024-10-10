@@ -8,7 +8,6 @@
 // ----------------------------------------------------------------------------
 
 using Abc.IdentityServer.EidasLight.Validation;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
         /// <summary>
         /// The clock.
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 #pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace Abc.IdentityServer.EidasLight.ResponseProcessing
         /// </summary>
         /// <param name="clock">The clock.</param>
         /// <param name="logger">The logger.</param>
-        public SignInInteractionResponseGenerator(ISystemClock clock, ILogger<SignInInteractionResponseGenerator> logger)
+        public SignInInteractionResponseGenerator(IClock clock, ILogger<SignInInteractionResponseGenerator> logger)
         {
             Clock = clock;
             Logger = logger;

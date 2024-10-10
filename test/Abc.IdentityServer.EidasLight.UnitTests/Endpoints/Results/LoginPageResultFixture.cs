@@ -1,6 +1,6 @@
 ﻿using Abc.IdentityModel.Protocols.EidasLight;
 using Abc.IdentityServer.EidasLight.Validation;
-using Microsoft.AspNetCore.Authentication;
+using Abc.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
@@ -14,8 +14,9 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results.UnitTests
     {
         private LoginPageResult _target;
         private ValidatedEidasLightRequest _request;
+        private MockServerUrls _urls;
         private IdentityServerOptions _options;
-        private ISystemClock _clock = new StubClock();
+        private IClock _clock = new StubClock();
         private DefaultHttpContext _context;
         private EidasLightProtocolSerializer _protocolSerializer = new EidasLightProtocolSerializer();
         private AuthorizationParametersMessageStoreMock _authorizationParametersMessageStore;
@@ -23,8 +24,6 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results.UnitTests
         public LoginPageResultFixture()
         {
             _context = new DefaultHttpContext();
-            _context.SetIdentityServerOrigin("https://server");
-            _context.SetIdentityServerBasePath("/");
             _context.Response.Body = new MemoryStream();
 
             _options = new IdentityServerOptions();
@@ -35,7 +34,13 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results.UnitTests
 
             _request = new ValidatedEidasLightRequest();
 
-            _target = new LoginPageResult(_request, _options, _clock, _protocolSerializer, _authorizationParametersMessageStore);
+            _urls = new MockServerUrls()
+            {
+                Origin = "https://server",
+                BasePath = "/".RemoveTrailingSlash(), // as in DefaultServerUrls
+            };
+
+            _target = new LoginPageResult(_request, _options, _clock, _urls, _protocolSerializer, _authorizationParametersMessageStore);
         }
 
         [Fact]

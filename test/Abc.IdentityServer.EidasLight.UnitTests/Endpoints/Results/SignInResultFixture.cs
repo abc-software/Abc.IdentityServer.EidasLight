@@ -16,8 +16,6 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results.UnitTests
             _options = new IdentityServerOptions();
 
             _context = new DefaultHttpContext();
-            _context.SetIdentityServerOrigin("https://server");
-            _context.SetIdentityServerBasePath("/");
             _context.Response.Body = new MemoryStream();
 
             _target = new SignInResult("some_token", "http://client/callback", _options);

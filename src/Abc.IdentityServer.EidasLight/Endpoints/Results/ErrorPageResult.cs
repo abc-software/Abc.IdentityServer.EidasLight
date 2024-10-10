@@ -19,7 +19,8 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results
     {
         private IMessageStore<ErrorMessage> _errorMessageStore;
         private IdentityServerOptions _options;
-        private ISystemClock _clock;
+        private IServerUrls _urls;
+        private IClock _clock;
 
         public ErrorPageResult(string error, string errorDescription)
         {
@@ -27,11 +28,12 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results
             ErrorDescription = errorDescription;
         }
 
-        internal ErrorPageResult(string error, string errorDescription, IdentityServerOptions options, ISystemClock clock, IMessageStore<ErrorMessage> errorMessageStore)
+        internal ErrorPageResult(string error, string errorDescription, IdentityServerOptions options, IClock clock, IServerUrls urls, IMessageStore<ErrorMessage> errorMessageStore)
             : this(error, errorDescription)
         {
             _options = options;
             _clock = clock;
+            _urls = urls;
             _errorMessageStore = errorMessageStore;
         }
 
@@ -56,14 +58,15 @@ namespace Abc.IdentityServer.EidasLight.Endpoints.Results
             var redirectUrl = _options.UserInteraction.ErrorUrl;
             redirectUrl = redirectUrl.AddQueryString(_options.UserInteraction.ErrorIdParameter, id);
 
-            context.Response.RedirectToAbsoluteUrl(redirectUrl);
+            context.Response.Redirect(_urls.GetAbsoluteUrl(redirectUrl));
         }
 
         private void Init(HttpContext context)
         {
             _errorMessageStore ??= context.RequestServices.GetRequiredService<IMessageStore<ErrorMessage>>();
             _options ??= context.RequestServices.GetRequiredService<IdentityServerOptions>();
-            _clock ??= context.RequestServices.GetRequiredService<ISystemClock>();
+            _urls ??= context.RequestServices.GetRequiredService<IServerUrls>();
+            _clock ??= context.RequestServices.GetRequiredService<IClock>();
         }
     }
 }
