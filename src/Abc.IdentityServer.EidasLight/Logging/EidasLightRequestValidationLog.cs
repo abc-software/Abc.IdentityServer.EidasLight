@@ -9,7 +9,6 @@
 
 using Abc.IdentityModel.Protocols.EidasLight;
 using Abc.IdentityServer.EidasLight.Validation;
-using IdentityModel;
 using System;
 using System.Collections.Generic;
 using System.Text;

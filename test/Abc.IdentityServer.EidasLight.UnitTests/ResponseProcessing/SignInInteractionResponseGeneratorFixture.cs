@@ -1,5 +1,4 @@
 ﻿using Abc.IdentityServer.EidasLight.Validation;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;

@@ -9,7 +9,6 @@
 
 using Abc.IdentityModel.EidasLight.Ignite;
 using Abc.IdentityModel.Protocols.EidasLight;
-using IdentityModel;
 using Microsoft.IdentityModel.Tokens.Saml2;
 using System;
 using System.Collections.Generic;
