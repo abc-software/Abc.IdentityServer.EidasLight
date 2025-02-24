@@ -1,11 +1,24 @@
-﻿#if IDS4
+﻿// ----------------------------------------------------------------------------
+// <copyright file="DefaultIssuerNameService.cs" company="ABC software Ltd">
+//    Copyright © ABC SOFTWARE. All rights reserved.
+//
+//    Licensed under the Apache License, Version 2.0.
+//    See LICENSE in the project root for license information.
+// </copyright>
+// ----------------------------------------------------------------------------
+
+#if IDS4 || IDS8
 
 using Abc.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 
+#if IDS4
 namespace IdentityServer4.Services;
+#else
+namespace IdentityServer8.Services;
+#endif
 
 /// <summary>
 /// Abstracts issuer name access.
