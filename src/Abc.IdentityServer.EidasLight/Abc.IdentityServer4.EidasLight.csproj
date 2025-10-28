@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abc.IdentityModel.Protocols.EidasLight" Version="2.1.0-dev03" />
+    <PackageReference Include="Abc.IdentityModel.Protocols.EidasLight" Version="2.2.1-dev.3" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens.Saml" Version="7.0.3" />
   </ItemGroup>
